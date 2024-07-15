@@ -15,7 +15,7 @@ const WelcomeCard = () => {
           leaders, and anyone else involved in project planning and management.
         </p>
         <div className="flex w-full flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-start md:gap-8">
-          <Button text="Create a project" href="#calculator" variant="primary" />
+          <Button text="Create a project" href="/project/new" variant="primary" />
           <Button text="Import JSON file" href="#calculator" variant="inverted" />
         </div>
       </SectionWrapper>

@@ -1,6 +1,7 @@
 import { type NavigationLink } from '@/app/_types/NavigationLink';
 import { twMerge } from 'tailwind-merge';
 import { Icon } from '@iconify/react';
+import Link from 'next/link';
 
 export interface Props extends NavigationLink {
   iconOnly?: boolean;
@@ -50,10 +51,10 @@ const Button = ({
 
   if (href) {
     return (
-      <a href={href} aria-label={ariaLabel} target={target} rel={rel} className={buttonClasses}>
+      <Link className={buttonClasses} href={href} aria-label={ariaLabel} target={target} rel={rel}>
         {icon && <Icon icon={icon} />}
         {text && <span>{text}</span>}
-      </a>
+      </Link>
     );
   }
 
