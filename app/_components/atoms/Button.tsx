@@ -11,6 +11,7 @@ export interface Props extends NavigationLink {
   variant?: 'default' | 'primary' | 'inverted' | 'dark';
   size?: 'small' | 'medium' | 'large';
   class?: string;
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -25,9 +26,10 @@ const Button = ({
   variant,
   size,
   class: className,
+  disabled,
 }: Props) => {
   const buttonBaseClasses =
-    'text-nowrap inline-flex flex-nowrap items-center justify-center gap-3 uppercase font-bold tracking-wider transition duration-300 ease-in-out';
+    'text-nowrap inline-flex flex-nowrap items-center justify-center gap-3 uppercase font-bold tracking-wider transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed';
 
   const buttonVariantClasses = {
     default: 'bg-background-highlighted text-foreground border-2 border-foreground-highlighted',
@@ -59,7 +61,7 @@ const Button = ({
   }
 
   return (
-    <button type={type} className={buttonClasses}>
+    <button type={type} className={buttonClasses} aria-label={ariaLabel} disabled={disabled}>
       {icon && <Icon icon={icon} />}
       {text && <span>{text}</span>}
     </button>

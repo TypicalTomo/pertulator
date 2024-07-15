@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge';
 
 export interface Props {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const SectionWrapper = ({ className, children }: Props) => {
@@ -13,7 +13,7 @@ const SectionWrapper = ({ className, children }: Props) => {
         className
       )}
     >
-      {children}
+      {children && children}
     </div>
   );
 };

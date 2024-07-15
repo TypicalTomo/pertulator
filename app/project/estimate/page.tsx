@@ -1,7 +1,7 @@
+import EstimateManager from "@/app/_components/organisms/EstimateManager"
+
 export default function EstimateProject() {
   return (
-    <div>
-      Lorem ipsum
-    </div>
+    <EstimateManager />
   )
 }

@@ -33,7 +33,7 @@ const ProjectForm = () => {
       </div>
       <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-2">
         <label className="sr-only text-sm font-medium" htmlFor="project_description">
-          Project description
+          Project description (optional)
         </label>
         <textarea
           id="project_description"
@@ -49,7 +49,7 @@ const ProjectForm = () => {
       </div>
       <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-2">
         <label className="sr-only text-sm font-medium" htmlFor="project_manager">
-          Project manager
+          Project manager (optional)
         </label>
         <input
           type="text"
