@@ -1,33 +1,135 @@
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/font_lora_normal.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/font_lora_italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/font_source_sans_3_normal.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/font_source_sans_3_italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/font_source_code_pro_normal.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/font_source_code_pro_italic.ttf') format('truetype');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --color-white: #ffffff;
+  --color-lighter: #f3f3f3;
+  --color-light: #e6e6e6;
+  --color-dark: #333333;
+  --color-darker: #1a1a1a;
+  --color-black: #000000;
+
+  --color-primary-lighter: #96d373;
+  --color-primary: #7ac74f;
+  --color-primary-darker: #69ba3b;
+
+  --color-foreground: var(--color-darker);
+  --color-foreground-highlighted: var(--color-dark);
+  --color-foreground-inverted: var(--color-lighter);
+  --color-background: var(--color-lighter);
+  --color-background-highlighted: var(--color-light);
+  --color-background-inverted: var(--color-darker);
+
+  --family-serif: 'Lora', serif;
+  --family-sans: 'Source Sans 3', sans-serif;
+  --family-monospace: 'Source Code Pro', monospace;
+
+  --family-heading: var(--family-serif);
+  --family-body: var(--family-sans);
+  --family-code: var(--family-monospace);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+::selection {
+  background-color: var(--color-primary-lighter);
+  color: var(--color-white);
+}
+
+.dark {
+  --color-lighter: #d3d3d3;
+  --color-light: #a6a6a6;
+
+  --color-primary-lighter: #7ac74f;
+  --color-primary: #69ba3b;
+  --color-primary-darker: #5aae33;
+
+  --color-foreground: var(--color-lighter);
+  --color-foreground-highlighted: var(--color-light);
+  --color-foreground-inverted: var(--color-darker);
+  --color-background: var(--color-darker);
+  --color-background-highlighted: var(--color-dark);
+  --color-background-inverted: var(--color-lighter);
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.card {
+  border: 2px solid var(--color-background-highlighted);
+  position: relative;
+  background-color: var(--color-background);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+
+.card::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+  transform: translate(-0.5rem, -0.5rem);
+  box-shadow: 0.5rem 0.5rem 0 var(--color-primary);
+}
+
+.card:hover::before {
+  transform: translate(0.5rem, 0.5rem);
 }
