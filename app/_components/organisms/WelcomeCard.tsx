@@ -1,26 +1,65 @@
 'use client';
 import { type Project } from '@/app/_types/Project';
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import SectionWrapper from '../molecules/SectionWrapper';
 import SectionHeading from '../molecules/SectionHeading';
 import Button from '../atoms/Button';
-import { loadProject, clearProject } from '@/app/_utils/project';
+import { saveProject, loadProject, clearProject, importProjectFromJSON } from '@/app/_utils/project';
 import { useRouter } from 'next/navigation';
 
 const WelcomeCard = () => {
-  const [project, setProject] = useState<Project | undefined>(loadProject());
+  const [project, setProject] = useState<Project | undefined>();
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const loadedProject = loadProject();
+
+    if (loadedProject) {
+      setProject(loadedProject);
+    }
+  }, []);
 
   const handleNewProject = () => {
     // show confirmation dialog
-    if (
-      confirm(
-        'Are you sure you want to start a new project? This will delete the current project. You can export the current project to JSON if you want to save it.'
-      )
-    ) {
-      clearProject();
+    if (project) {
+      if (
+        confirm(
+          'Are you sure you want to start a new project? This will delete the current project. You can export the current project to JSON if you want to save it.'
+        )
+      ) {
+        clearProject();
+        router.push('/project/edit');
+      }
+    } else {
       router.push('/project/edit');
     }
+  };
+
+  const handleImportJSONButton = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImportJSON = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files || event.target.files.length === 0) {
+      return;
+    }
+
+    const file = event.target.files[0];
+
+    // handle errors
+    importProjectFromJSON(file)
+      .then((project) => {
+        setProject(project);
+        saveProject(project);
+        router.push('/project/estimate');
+      })
+      .catch((error) => {
+        alert('Error importing project from JSON file.');
+        console.error(error);
+      });
   };
 
   return (
@@ -36,8 +75,14 @@ const WelcomeCard = () => {
         </p>
         <div className="flex w-full flex-col items-stretch gap-4 lg:flex-row lg:items-center lg:justify-start">
           {project && <Button text="Continue with project" href="/project/estimate" variant="primary" />}
-          <Button text="Create a new project" onClick={handleNewProject} variant={project ? 'tertiary' : 'primary'} />
-          <Button text="Import JSON file" href="#calculator" variant="inverted" />
+          <Button
+            type="button"
+            text="Create a new project"
+            onClick={handleNewProject}
+            variant={project ? 'tertiary' : 'primary'}
+          />
+          <input type="file" ref={fileInputRef} className="hidden" accept=".json" onChange={handleImportJSON} />
+          <Button type="button" text="Import JSON file" onClick={handleImportJSONButton} variant="inverted" />
         </div>
       </SectionWrapper>
     </section>

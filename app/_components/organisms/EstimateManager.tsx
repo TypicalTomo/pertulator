@@ -11,7 +11,13 @@ import Button from '../atoms/Button';
 import PageHeading from '../molecules/PageHeading';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { loadProject, saveProject, clearProject } from '@/app/_utils/project';
+import {
+  loadProject,
+  saveProject,
+  clearProject,
+  exportProjectToJSON,
+  exportProjectTasksToCSV,
+} from '@/app/_utils/project';
 import { useEffect } from 'react';
 
 const EstimateManager = () => {
@@ -55,6 +61,12 @@ const EstimateManager = () => {
     }
   };
 
+  const handleExportToJSON = () => {
+    if (project) {
+      exportProjectToJSON(project);
+    }
+  };
+
   return (
     <section className="py-12 md:py-24">
       <SectionWrapper>
@@ -75,10 +87,7 @@ const EstimateManager = () => {
           <Link href="/project/edit" className="text-primary-darker hover:underline">
             Edit project
           </Link>
-          <button
-            className="text-tertiary hover:underline"
-            onClick={handleNewProject}
-          >
+          <button className="text-tertiary hover:underline" onClick={handleNewProject}>
             Start new project
           </button>
         </div>
@@ -91,28 +100,19 @@ const EstimateManager = () => {
         <div className="flex w-full flex-col gap-4 md:flex-row">
           <Button
             variant="primary"
-            text="Print mode"
-            class="w-full sm:w-auto"
-            onClick={() => {
-              console.log('Prepare project for printing');
-            }}
-            disabled={tasks.length <= 0}
-          />
-          <Button
-            variant="inverted"
             text="Export to JSON"
             class="w-full sm:w-auto"
-            onClick={() => {
-              console.log('Prepare project for JSON export');
-            }}
+            onClick={handleExportToJSON}
             disabled={tasks.length <= 0}
           />
           <Button
             variant="inverted"
-            text="Export to CSV"
+            text="Export tasks to CSV"
             class="w-full sm:w-auto"
             onClick={() => {
-              console.log('Prepare project for CSV export');
+              if (project) {
+                exportProjectTasksToCSV(project);
+              }
             }}
             disabled={tasks.length <= 0}
           />
