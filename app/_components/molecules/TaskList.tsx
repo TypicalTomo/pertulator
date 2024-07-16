@@ -21,7 +21,7 @@ const TaskList = ({ tasks, onTaskRemove }: Props) => {
     </ul>
   ) : (
     <div className="flex w-full flex-col flex-nowrap gap-3 border border-background-hihglighted bg-white p-3">
-      <p className="text-center text-base">No tasks added yet. Add a task using the form below.</p>
+      <p className="text-center text-base">No tasks added yet. Add a task using the form above.</p>
     </div>
   );
 };

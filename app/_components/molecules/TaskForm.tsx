@@ -128,9 +128,9 @@ const TaskForm = ({ onSubmit }: Props) => {
           value={taskDescription}
         />
       </div>
-      <div className="flex w-full flex-row flex-nowrap items-stretch justify-stretch gap-2">
+      <div className="flex w-full flex-col sm:flex-row flex-nowrap items-stretch justify-stretch gap-6">
         <div className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-2">
-          <label className="text-sm font-medium" htmlFor="task_estimate_optimistic">
+          <label className="text-sm font-medium text-secondary" htmlFor="task_estimate_optimistic">
             Optimistic estimate
           </label>
           <input
@@ -142,7 +142,7 @@ const TaskForm = ({ onSubmit }: Props) => {
             min={0}
             max={100}
             autoComplete="off"
-            className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
+            className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-secondary focus:outline-none focus:ring-0"
             onChange={(e) => {
               setOptimisticEstimate(parseInt(e.target.value || '0'));
             }}
@@ -151,7 +151,7 @@ const TaskForm = ({ onSubmit }: Props) => {
           />
         </div>
         <div className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-2">
-          <label className="text-sm font-medium" htmlFor="task_estimate_most_likely">
+          <label className="text-sm font-medium text-primary" htmlFor="task_estimate_most_likely">
             Most likely estimate
           </label>
           <input
@@ -170,7 +170,7 @@ const TaskForm = ({ onSubmit }: Props) => {
           />
         </div>
         <div className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-2">
-          <label className="text-sm font-medium" htmlFor="task_estimate_pessimistic">
+          <label className="text-sm font-medium text-tertiary" htmlFor="task_estimate_pessimistic">
             Pessimistic estimate
           </label>
           <input
@@ -182,7 +182,7 @@ const TaskForm = ({ onSubmit }: Props) => {
             min={0}
             max={100}
             autoComplete="off"
-            className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
+            className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-tertiary focus:outline-none focus:ring-0"
             onChange={(e) => setPessimisticEstimate(parseInt(e.target.value || '0'))}
             value={pessimisticEstimate}
             ref={pessimisticEstimateRef}

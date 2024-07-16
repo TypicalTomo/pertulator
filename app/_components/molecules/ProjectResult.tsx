@@ -7,7 +7,7 @@ import {
   getProjectVariance,
   getProjectCompletionProbability,
 } from '@/app/_utils/calculator';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export interface ProjectResultProps {
   tasks: Task[];
@@ -45,13 +45,15 @@ const ProjectResult = ({ tasks }: ProjectResultProps) => {
     return (
       <>
         <figure className="flex w-full flex-col items-center justify-center">
-          <LineChart width={800} height={400} data={data}>
-            <Line type="monotone" dataKey="probability" stroke="var(--color-primary)" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
-            <XAxis dataKey="completionTime" />
-            <YAxis />
-            <Tooltip content={<CustomTooltip />} />
-          </LineChart>
+          <ResponsiveContainer aspect={2}>
+            <LineChart width={800} height={400} data={data}>
+              <Line type="monotone" dataKey="probability" stroke="var(--color-primary)" />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
+              <XAxis dataKey="completionTime" />
+              <YAxis />
+              <Tooltip content={<CustomTooltip />} />
+            </LineChart>
+          </ResponsiveContainer>
           <figcaption className="text-center text-sm">
             Probability of project completion calculated using the standard normal distribution function with a mean of{' '}
             <strong>{expectedTime.toFixed(2)}</strong> and a standard deviation of{' '}
