@@ -8,10 +8,11 @@ export interface Props extends NavigationLink {
   target?: string;
   rel?: string;
   type?: 'button' | 'submit' | 'reset';
-  variant?: 'default' | 'primary' | 'inverted' | 'dark';
+  variant?: 'default' | 'primary' | 'secondary' | 'tertiary' | 'inverted' | 'dark';
   size?: 'small' | 'medium' | 'large';
   class?: string;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 const Button = ({
@@ -27,6 +28,7 @@ const Button = ({
   size,
   class: className,
   disabled,
+  onClick,
 }: Props) => {
   const buttonBaseClasses =
     'text-nowrap inline-flex flex-nowrap items-center justify-center gap-3 uppercase font-bold tracking-wider transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed';
@@ -34,6 +36,8 @@ const Button = ({
   const buttonVariantClasses = {
     default: 'bg-background-highlighted text-foreground border-2 border-foreground-highlighted',
     primary: 'bg-primary text-white border-2 border-primary',
+    secondary: 'bg-secondary text-white border-2 border-secondary',
+    tertiary: 'bg-tertiary text-white border-2 border-tertiary',
     inverted: 'bg-background-inverted text-foreground-inverted border-2 border-background-inverted',
     dark: 'bg-darker text-lightest border-2 border-darker',
   };
@@ -61,9 +65,9 @@ const Button = ({
   }
 
   return (
-    <button type={type} className={buttonClasses} aria-label={ariaLabel} disabled={disabled}>
+    <button type={type} className={buttonClasses} aria-label={ariaLabel} disabled={disabled} onClick={onClick}>
       {icon && <Icon icon={icon} />}
-      {text && <span>{text}</span>}
+      {text && <span className={iconOnly ? 'sr-only' : 'not-sr-only'}>{text}</span>}
     </button>
   );
 };

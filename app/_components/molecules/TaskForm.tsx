@@ -1,9 +1,14 @@
 'use client';
+import { type Task } from '@/app/_types/Task';
 import Button from '../atoms/Button';
 import { useCallback, useEffect, useRef } from 'react';
 import { useState } from 'react';
 
-const TaskForm = () => {
+export interface Props {
+  onSubmit?: (taskData: Task) => void;
+}
+
+const TaskForm = ({ onSubmit }: Props) => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [pessimisticEstimate, setPessimisticEstimate] = useState<number>(0);
@@ -51,6 +56,16 @@ const TaskForm = () => {
     }
   }, [pessimisticEstimate, optimisticEstimate, mostLikelyEstimate]);
 
+  const clearForm = () => {
+    setTaskName('');
+    setTaskDescription('');
+    setPessimisticEstimate(0);
+    setOptimisticEstimate(0);
+    setMostLikelyEstimate(0);
+    setError({});
+    setSubmitAttempt(false);
+  };
+
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitAttempt(true);
@@ -59,11 +74,16 @@ const TaskForm = () => {
       return;
     }
 
-    const formData = new FormData(event.currentTarget);
-    const taskData = Object.fromEntries(formData.entries());
+    const taskData: Task = {
+      name: taskName,
+      description: taskDescription,
+      pessimisticEstimate: pessimisticEstimate,
+      optimisticEstimate: optimisticEstimate,
+      mostLikelyEstimate: mostLikelyEstimate,
+    };
 
-    // TODO: save task data
-    console.log(taskData);
+    onSubmit && onSubmit(taskData);
+    clearForm();
   };
 
   useEffect(() => {
@@ -87,6 +107,7 @@ const TaskForm = () => {
           name="task_name"
           placeholder="Enter task name"
           required
+          autoComplete="off"
           className="border-b border-background-hihglighted bg-transparent px-0 py-2 font-heading text-base font-semibold transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0 md:text-lg"
           onChange={(e) => setTaskName(e.target.value || '')}
           value={taskName}
@@ -101,12 +122,34 @@ const TaskForm = () => {
           name="task_description"
           placeholder="Enter task description (optional)"
           rows={3}
+          autoComplete="off"
           className="resize-none border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
           onChange={(e) => setTaskDescription(e.target.value || '')}
           value={taskDescription}
         />
       </div>
       <div className="flex w-full flex-row flex-nowrap items-stretch justify-stretch gap-2">
+        <div className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-2">
+          <label className="text-sm font-medium" htmlFor="task_estimate_optimistic">
+            Optimistic estimate
+          </label>
+          <input
+            type="number"
+            id="task_estimate_optimistic"
+            name="task_estimate_optimistic"
+            placeholder="Optimistic estimate"
+            step={1}
+            min={0}
+            max={100}
+            autoComplete="off"
+            className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
+            onChange={(e) => {
+              setOptimisticEstimate(parseInt(e.target.value || '0'));
+            }}
+            value={optimisticEstimate}
+            ref={optimisticEstimateRef}
+          />
+        </div>
         <div className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-2">
           <label className="text-sm font-medium" htmlFor="task_estimate_most_likely">
             Most likely estimate
@@ -119,6 +162,7 @@ const TaskForm = () => {
             step={1}
             min={0}
             max={100}
+            autoComplete="off"
             className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
             onChange={(e) => setMostLikelyEstimate(parseInt(e.target.value || '0'))}
             value={mostLikelyEstimate}
@@ -137,30 +181,11 @@ const TaskForm = () => {
             step={1}
             min={0}
             max={100}
+            autoComplete="off"
             className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
             onChange={(e) => setPessimisticEstimate(parseInt(e.target.value || '0'))}
             value={pessimisticEstimate}
             ref={pessimisticEstimateRef}
-          />
-        </div>
-        <div className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-2">
-          <label className="text-sm font-medium" htmlFor="task_estimate_optimistic">
-            Optimistic estimate
-          </label>
-          <input
-            type="number"
-            id="task_estimate_optimistic"
-            name="task_estimate_optimistic"
-            placeholder="Optimistic estimate"
-            step={1}
-            min={0}
-            max={100}
-            className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
-            onChange={(e) => {
-              setOptimisticEstimate(parseInt(e.target.value || '0'));
-            }}
-            value={optimisticEstimate}
-            ref={optimisticEstimateRef}
           />
         </div>
       </div>

@@ -20,6 +20,16 @@ const config: Config = {
           lighter: 'var(--color-primary-lighter)',
           darker: 'var(--color-primary-darker)',
         },
+        secondary: {
+          DEFAULT: 'var(--color-secondary)',
+          lighter: 'var(--color-secondary-lighter)',
+          darker: 'var(--color-secondary-darker)',
+        },
+        tertiary: {
+          DEFAULT: 'var(--color-tertiary)',
+          lighter: 'var(--color-tertiary-lighter)',
+          darker: 'var(--color-tertiary-darker)',
+        },
         foreground: {
           DEFAULT: 'var(--color-foreground)',
           hihglighted: 'var(--color-foreground-highlighted)',
