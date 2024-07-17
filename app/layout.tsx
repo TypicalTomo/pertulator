@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Header from './_components/organisms/Header';
+import Footer from './_components/organisms/Footer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -16,7 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen w-full bg-background font-body text-foreground">
         <Header />
-        <main className="flex min-h-[calc(100vh_-_74px)] lg:min-h-screen w-full flex-col flex-nowrap items-center justify-center">{children}</main>
+        <main className="flex min-h-[calc(100vh_-_152px)] lg:min-h-screen w-full flex-col flex-nowrap items-center justify-center">{children}</main>
+        <Footer />
       </body>
     </html>
   );
