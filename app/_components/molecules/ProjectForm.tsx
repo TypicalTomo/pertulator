@@ -44,7 +44,7 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
   };
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={handleFormSubmit}>
+    <form className="w-full flex flex-col gap-8" onSubmit={handleFormSubmit}>
       <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
         <label className="text-sm font-medium" htmlFor="project_name">
           Project name
@@ -75,7 +75,7 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
           onChange={(e) => setProjectDescription(e.target.value || '')}
         />
         <small id="project_description_help" className="text-sm italic text-foreground-hihglighted">
-          A brief description of the project. This will be added on the PDF report. Leave empty if not applicable.
+          A brief description of the project. Leave empty if not applicable.
         </small>
       </div>
       <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
@@ -93,7 +93,7 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
           onChange={(e) => setProjectManager(e.target.value || '')}
         />
         <small id="project_manager_help" className="text-sm italic text-foreground-hihglighted">
-          This person will be added on the PDF report as the project manager. Leave empty if not applicable.
+          Leave empty if not applicable.
         </small>
       </div>
       <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">

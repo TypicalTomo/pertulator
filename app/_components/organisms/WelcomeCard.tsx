@@ -63,7 +63,7 @@ const WelcomeCard = () => {
   };
 
   return (
-    <section className="py-12 md:py-24">
+    <section className="w-full py-12 md:py-24">
       <SectionWrapper>
         <SectionHeading title="Welcome to PERTulator" align="left" />
         <p className="text-base leading-relaxed md:text-lg md:leading-relaxed lg:text-xl lg:leading-relaxed">

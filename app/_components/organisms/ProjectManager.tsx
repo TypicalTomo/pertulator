@@ -26,7 +26,7 @@ const ProjectManager = () => {
   };
 
   return (
-    <section className="py-12 md:py-24">
+    <section className="w-full py-12 md:py-24">
       <SectionWrapper>
         <ProjectForm project={project} onSubmit={handleFormSubmit} />
       </SectionWrapper>
