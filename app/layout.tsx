@@ -14,9 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-background font-body text-foreground">
+      <body className="min-h-screen w-full bg-background font-body text-foreground">
         <Header />
-        <main>{children}</main>
+        <main className="flex min-h-[calc(100vh_-_74px)] lg:min-h-screen w-full flex-col flex-nowrap items-center justify-center">{children}</main>
       </body>
     </html>
   );

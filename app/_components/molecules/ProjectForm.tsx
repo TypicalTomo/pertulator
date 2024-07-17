@@ -14,6 +14,8 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
   const [projectDescription, setProjectDescription] = useState<string>(project?.description || '');
   const [projectManager, setProjectManager] = useState<string>(project?.manager || '');
   const [tasks, setTasks] = useState<Task[]>(project?.tasks || []);
+  const [unitPrice, setUnitPrice] = useState<number>(project?.unitPrice || 0);
+  const [currency, setCurrency] = useState<string>(project?.currency || 'USD');
 
   useEffect(() => {
     if (project) {
@@ -21,6 +23,8 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
       setProjectDescription(project.description || '');
       setProjectManager(project.manager);
       setTasks(project.tasks);
+      setUnitPrice(project.unitPrice || 0.0);
+      setCurrency(project.currency || 'USD');
     }
   }, [project]);
 
@@ -32,15 +36,17 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
       description: projectDescription,
       manager: projectManager,
       tasks: tasks,
+      unitPrice: unitPrice,
+      currency: currency,
     };
 
     onSubmit && onSubmit(projectData);
   };
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
-      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-2">
-        <label className="sr-only text-sm font-medium" htmlFor="project_name">
+    <form className="flex flex-col gap-8" onSubmit={handleFormSubmit}>
+      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
+        <label className="text-sm font-medium" htmlFor="project_name">
           Project name
         </label>
         <input
@@ -54,8 +60,8 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
           onChange={(e) => setProjectName(e.target.value || '')}
         />
       </div>
-      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-2">
-        <label className="sr-only text-sm font-medium" htmlFor="project_description">
+      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
+        <label className="text-sm font-medium" htmlFor="project_description">
           Project description (optional)
         </label>
         <textarea
@@ -72,8 +78,8 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
           A brief description of the project. This will be added on the PDF report. Leave empty if not applicable.
         </small>
       </div>
-      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-2">
-        <label className="sr-only text-sm font-medium" htmlFor="project_manager">
+      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
+        <label className="text-sm font-medium" htmlFor="project_manager">
           Project manager (optional)
         </label>
         <input
@@ -88,6 +94,53 @@ const ProjectForm = ({ project, onSubmit }: Props) => {
         />
         <small id="project_manager_help" className="text-sm italic text-foreground-hihglighted">
           This person will be added on the PDF report as the project manager. Leave empty if not applicable.
+        </small>
+      </div>
+      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
+        <label className="text-sm font-medium" htmlFor="unit_price">
+          Unit price (optional)
+        </label>
+        <input
+          type="number"
+          id="project_unit_price"
+          name="project_unit_price"
+          aria-describedby="project_unit_price_help"
+          placeholder="Enter unit price"
+          value={unitPrice}
+          step="0.01"
+          min="0"
+          className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-lg transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
+          onChange={(e) => setUnitPrice(Number(e.target.value) || 0)}
+        />
+        <small id="project_unit_price_help" className="text-sm italic text-foreground-hihglighted">
+          The unit price of the project. Leave empty if not applicable.
+        </small>
+      </div>
+      <div className="flex flex-col flex-nowrap items-stretch justify-stretch gap-1">
+        <label className="text-sm font-medium" htmlFor="currency">
+          Currency (optional)
+        </label>
+        <select
+          id="currency"
+          name="currency"
+          aria-describedby="currency_help"
+          value={currency}
+          className="border-b border-background-hihglighted bg-transparent px-0 py-2 text-lg transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0"
+          onChange={(e) => setCurrency(e.target.value || 'USD')}
+        >
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="JPY">JPY</option>
+          <option value="CNY">CNY</option>
+          <option value="CAD">CAD</option>
+          <option value="AUD">AUD</option>
+          <option value="CHF">CHF</option>
+          <option value="SEK">SEK</option>
+          <option value="NZD">NZD</option>
+        </select>
+        <small id="currency_help" className="text-sm italic text-foreground-hihglighted">
+          The currency of the project. Will be used if the unit price is set.
         </small>
       </div>
       <Button type="submit" text={project ? 'Edit project' : 'Create project'} variant="primary" />

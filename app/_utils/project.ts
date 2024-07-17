@@ -10,6 +10,8 @@ export const projectToJSON = (project: Project) => {
     description: project.description,
     manager: project.manager,
     tasks: project.tasks,
+    unitPrice: project.unitPrice,
+    currency: project.currency,
   };
 };
 
@@ -19,6 +21,8 @@ export const JSONToProject = (data: any): Project => {
     description: data.description,
     manager: data.manager,
     tasks: data.tasks,
+    unitPrice: data.unitPrice,
+    currency: data.currency,
   };
 };
 

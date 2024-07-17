@@ -6,10 +6,13 @@ import {
   getProjectExpectedTime,
   getProjectVariance,
   getProjectCompletionProbability,
+  getProjectPriceByUnits
 } from '@/app/_utils/calculator';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-export interface ProjectResultProps {
+export interface Props {
+  unitPrice?: number;
+  currency?: string;
   tasks: Task[];
 }
 
@@ -19,6 +22,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       <div className="border border-background-hihglighted bg-white p-2">
         <p className="text-sm">{`Completion time: ${label}`}</p>
         <p className="text-sm">{`Probability: ${payload[0].value}%`}</p>
+        {payload[0].payload.price && (
+          <p className="text-sm">{`Budget: ${payload[0].payload.price}`}</p>
+        )}
       </div>
     );
   }
@@ -26,20 +32,25 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const ProjectResult = ({ tasks }: ProjectResultProps) => {
+const ProjectResult = ({ unitPrice, currency, tasks }: Props) => {
   const renderLineChart = () => {
     const data = [];
-    const completionTime = 0;
     const expectedTime = getProjectExpectedTime(tasks);
     const variance = getProjectVariance(tasks);
     const standardDeviation = Math.sqrt(variance);
     const totalPessimisticEstimate = tasks.reduce((acc, task) => acc + task.pessimisticEstimate, 0);
 
     for (let i = 0; i <= totalPessimisticEstimate; i++) {
-      data.push({
+      let item: { completionTime: number; probability: string; price?: string } = {
         completionTime: i,
         probability: getProjectCompletionProbability(tasks, i).toFixed(2),
-      });
+      }
+    
+      if (unitPrice) {
+        item.price = `${getProjectPriceByUnits(i, unitPrice).toFixed(2)} ${currency || 'USD'}`;
+      }
+    
+      data.push(item);
     }
 
     return (
@@ -51,7 +62,7 @@ const ProjectResult = ({ tasks }: ProjectResultProps) => {
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
               <XAxis dataKey="completionTime" />
               <YAxis />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip currency={currency} />} />
             </LineChart>
           </ResponsiveContainer>
           <figcaption className="text-center text-sm">

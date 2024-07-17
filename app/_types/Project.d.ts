@@ -5,4 +5,6 @@ export type Project = {
   description?: string;
   manager: string;
   tasks: Task[];
+  unitPrice?: number;
+  currency?: string;
 };

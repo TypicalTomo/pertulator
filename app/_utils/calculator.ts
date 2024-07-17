@@ -24,6 +24,10 @@ export const getProjectExpectedTime = (tasks: Task[]) => {
   );
 };
 
+export const getProjectStandardDeviation = (tasks: Task[]) => {
+  return Math.sqrt(tasks.reduce((acc, task) => acc + getVariance(task.pessimisticEstimate, task.optimisticEstimate), 0));
+};
+
 export const getProjectVariance = (tasks: Task[]) => {
   return tasks.reduce((acc, task) => acc + getVariance(task.pessimisticEstimate, task.optimisticEstimate), 0);
 };
@@ -31,7 +35,27 @@ export const getProjectVariance = (tasks: Task[]) => {
 export const getProjectCompletionProbability = (tasks: Task[], completionTime: number) => {
   // calculate probability of project at given completion time, tasks are not related, so we can just multiply probabilities
   return tasks.reduce((acc, task) => acc * getCompletionProbability(task, completionTime), 1) * 100;
-}
+};
+
+export const getExpectedProjectPrice = (tasks: Task[], unitPrice: number) => {
+  return tasks.reduce(
+    (acc, task) =>
+      acc + getExpectedTime(task.pessimisticEstimate, task.optimisticEstimate, task.mostLikelyEstimate) * unitPrice,
+    0
+  );
+};
+
+export const getLowestProjectPrice = (tasks: Task[], unitPrice: number) => {
+  return tasks.reduce((acc, task) => acc + task.optimisticEstimate * unitPrice, 0);
+};
+
+export const getHighestProjectPrice = (tasks: Task[], unitPrice: number) => {
+  return tasks.reduce((acc, task) => acc + task.pessimisticEstimate * unitPrice, 0);
+};
+
+export const getProjectPriceByUnits = (units: number, unitPrice: number) => {
+  return units * unitPrice;
+};
 
 const getCompletionProbability = (task: Task, completionTime: number) => {
   const expectedTime = getExpectedTime(task.pessimisticEstimate, task.optimisticEstimate, task.mostLikelyEstimate);
@@ -39,8 +63,8 @@ const getCompletionProbability = (task: Task, completionTime: number) => {
   const z = (completionTime - expectedTime) / standardDeviation;
 
   return standardNormalDistribution(z);
-}
+};
 
 const standardNormalDistribution = (z: number) => {
   return (1 + erf(z / Math.sqrt(2))) / 2;
-}
+};

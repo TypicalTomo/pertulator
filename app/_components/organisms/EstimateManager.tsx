@@ -19,6 +19,7 @@ import {
   exportProjectTasksToCSV,
 } from '@/app/_utils/project';
 import { useEffect } from 'react';
+import ProjectSummary from '../molecules/ProjectSummary';
 
 const EstimateManager = () => {
   const [project, setProject] = useState<Project | undefined>();
@@ -95,7 +96,9 @@ const EstimateManager = () => {
         <SectionHeading title="Tasks" />
         <TaskList tasks={tasks} onTaskRemove={handleTaskRemove} />
         <SectionHeading title="Results" />
-        <ProjectResult tasks={tasks} />
+        <ProjectResult tasks={tasks} unitPrice={project?.unitPrice} currency={project?.currency} />
+        <SectionHeading title="Summary" />
+        <ProjectSummary project={project} tasks={tasks} />
         <hr className="h-px w-full border-none bg-background-hihglighted" />
         <div className="flex w-full flex-col gap-4 md:flex-row">
           <Button

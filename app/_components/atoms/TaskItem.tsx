@@ -23,7 +23,7 @@ const TaskItem = ({ task, index, onRemove }: Props) => {
   return (
     <li className="flex w-full flex-col flex-nowrap gap-3 border border-background-hihglighted bg-white">
       <div className="flex w-full flex-col flex-nowrap gap-3 p-3">
-        <div className='flex w-full flex-row flex-nowrap items-stretch justify-between gap-3'>
+        <div className="flex w-full flex-row flex-nowrap items-stretch justify-between gap-3">
           <h3 className="px-0 font-heading text-base font-semibold transition duration-300 ease-in-out md:text-lg">
             {task.name}
           </h3>
@@ -34,7 +34,7 @@ const TaskItem = ({ task, index, onRemove }: Props) => {
             icon="ph:x"
             iconOnly={true}
             onClick={handleRemove}
-            class='p-1'
+            class="p-1"
           />
         </div>
         {task.description && <p className="px-0 text-base transition duration-300 ease-in-out">{task.description}</p>}
@@ -44,9 +44,9 @@ const TaskItem = ({ task, index, onRemove }: Props) => {
               <dd className="text-sm font-medium">Expected time</dd>
               <dt className="bg-transparent px-0 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0">
                 {expectedTime.toFixed(2)}{' '}
-                <span className={expectedTime - task.mostLikelyEstimate > 0 ? 'text-tertiary' : 'text-primary'}>
+                <span className={expectedTime - task.mostLikelyEstimate > 0 ? 'text-tertiary' : 'text-primary-darker'}>
                   ({expectedTime - task.mostLikelyEstimate > 0 ? '+' : ''}
-                  {(expectedTime - task.mostLikelyEstimate).toFixed(2)})
+                  {(expectedTime - task.mostLikelyEstimate).toFixed(2)} from most likely)
                 </span>
               </dt>
             </dl>
@@ -54,6 +54,7 @@ const TaskItem = ({ task, index, onRemove }: Props) => {
               <dd className="text-sm font-medium">Standard deviation</dd>
               <dt className="bg-transparent px-0 text-base transition duration-300 ease-in-out focus:border-primary focus:outline-none focus:ring-0">
                 {standardDeviation.toFixed(2)}
+                {standardDeviation > 2 && <span className="text-tertiary"> (High variability)</span>}
               </dt>
             </dl>
             <dl className="flex w-full flex-col flex-nowrap items-stretch justify-stretch gap-1">
@@ -87,7 +88,7 @@ const TaskItem = ({ task, index, onRemove }: Props) => {
       </div>
       <div className="flex h-1 w-full flex-row flex-nowrap items-stretch justify-stretch gap-0 overflow-hidden">
         <span
-          className="bg-secondary flex flex-col flex-nowrap items-stretch justify-stretch gap-0"
+          className="flex flex-col flex-nowrap items-stretch justify-stretch gap-0 bg-secondary"
           style={{ width: `${(task.optimisticEstimate / totalTime) * 100.0}%` }}
         ></span>
         <span
@@ -95,7 +96,7 @@ const TaskItem = ({ task, index, onRemove }: Props) => {
           style={{ width: `${(task.mostLikelyEstimate / totalTime) * 100}%` }}
         ></span>
         <span
-          className="bg-tertiary flex flex-col flex-nowrap items-stretch justify-stretch gap-0"
+          className="flex flex-col flex-nowrap items-stretch justify-stretch gap-0 bg-tertiary"
           style={{ width: `${(task.pessimisticEstimate / totalTime) * 100.0}%` }}
         ></span>
       </div>
