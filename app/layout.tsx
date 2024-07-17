@@ -7,6 +7,23 @@ import Head from 'next/head';
 export const metadata: Metadata = {
   title: 'PERTulator by Tomoweb.dev',
   description: 'PERTulator is a simple PERT calculator for project management.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://pertulator.tomoweb.dev',
+    siteName: 'PERTulator',
+    title: 'PERTulator by Tomoweb.dev',
+    description: 'PERTulator is a simple PERT calculator for project management.',
+    images: [
+      {
+        url: 'https://pertulator.tomoweb.dev/seo.webp',
+        width: 1200,
+        height: 630,
+        alt: 'PERTulator by Tomoweb.dev',
+        type: 'image/webp',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
